@@ -29,7 +29,6 @@
 }
 
 .add-new {
-    /* margin-left: 1.5rem; */
     width: 96%;
     margin: auto;
     margin-bottom: 3rem;
@@ -39,7 +38,6 @@
 
 .content {
     width: 92%;
-    /* height: auto; */
     margin: auto;
     overflow-y: auto !important;
 }
@@ -96,12 +94,10 @@
 .filters {
     margin-top: 1rem;
     margin-bottom: 3rem;
-    text-align: center;
-    margin-left: 3rem;
 }
 
 .radio-wrap {
-    margin-left: 3rem;
+    margin-left: 1rem;
 }
 
 .select-wrap {

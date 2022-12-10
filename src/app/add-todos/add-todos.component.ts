@@ -34,26 +34,17 @@ export class AddTodosComponent {
   }
 
   ngOnInit(){
-
-    console.log('====================================');
-    console.log('hyj');
-    console.log('====================================');
     let tmpCookie:any = localStorage.getItem('secureCookie');
     let userCookie = JSON.parse(tmpCookie);
+    this.selectedOption = 'low';
     
     if(userCookie=== null || typeof userCookie === 'undefined' || userCookie?.length === 0){
       this.router.navigate(['/']);
     }
   }
-
-  ngOnDestroy() {
-    console.log('====================================');
-    console.log('onDestroy');
-    console.log('====================================');
-  }
   
   priorityChange(event:any){
-    // console.log('priorityChange',event.value);
+    console.log('priorityChange',event.value);
     this.selectedOption = event.value;
   }
 
@@ -63,27 +54,19 @@ cancel(){
 }
 
 @Input() todos:any;
+@Input() userId:any;
 addNew(data:any, event:any){
   console.log('in add new todos', this.todos);
 
   console.log('addNew-data',data);
   console.log('addNew-prior',this.selectedOption);
-  // data.todo, this.selectedOption
-
-  // let tmptodos:any = localStorage.getItem('todos');
-  // let userTodos = JSON.parse(tmptodos);
-  // console.log('userTodos>>>', userTodos);
     
-  let orderIdDec = this.todos.sort(function(a:any,b:any){
-    return a.id - b.id
-  });
-
-  let lastTodoInArray = orderIdDec.pop();
-  console.log('last-pop', lastTodoInArray);
-
-  let counterId = lastTodoInArray.id + 1;
-  console.log('counterId', counterId)
-  let newToDo = {userId: lastTodoInArray.userId, id: counterId, title:data.todo, completed: false, new: true, priority: this.selectedOption};
+  let tmpId = 0;
+  for(let i = 0; i < this.todos.length; i++) {
+    tmpId = this.todos[i].id > tmpId ? this.todos[i].id : tmpId;
+  }
+  
+  let newToDo = {userId: this.userId, id: tmpId, title:data.todo, completed: false, new: true, priority: this.selectedOption};
   console.log('newToDo', newToDo)
 
   this.todos.unshift(newToDo);

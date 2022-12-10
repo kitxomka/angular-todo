@@ -1,3 +1,14 @@
+:host {
+    position: fixed;
+    left: calc(50vw - 340px);
+    top: calc(50vh - 150px);
+    background: #fff;
+    border-radius: 3px;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    z-index: 1;
+  }
+
 .title-wrap {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -9,29 +20,18 @@
     font-weight: 400;
     line-height: 1.167;
     letter-spacing: 0em;
-    /* margin-top: 2rem; */
-    /* margin-bottom: 1.5rem; */
     text-transform: uppercase;
 }
 
-.card {
-    /* width: 100%; */
-    /* margin: 1.5rem auto; */
-}
 
 .form-container {
-    /* width: 40%;
-    margin: auto; */
     text-align: center;
-    /* margin-bottom: 4rem; */
     margin-top: 2rem;
 } 
 
 
 .mat-mdc-form-field {
     width: 85%;
-    /* display: block; */
-    /* margin-bottom: 1rem; */
 }
 
 button {

@@ -1,7 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FetchDataService } from '../fetch-data.service';
 import {Router} from '@angular/router';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 
 
@@ -26,6 +26,7 @@ export class TodosComponent {
   isAddModalVisible:any;
   todos:any;
   userName:any;
+  userId: any;
   selectedOption:string = 'all';
   selectOptions: SelectOptions[] = [
     {value: 'all', viewValue: 'All'},
@@ -52,8 +53,8 @@ export class TodosComponent {
     this.isAddModalVisible = false;
   }
 
-  handleAddCancel() {
-    // this.isAddModalVisible = false;
+  handleAddModalCancel() {
+    this.isAddModalVisible = false;
   }
 
   getUsersTodos(id:any){
@@ -72,28 +73,13 @@ export class TodosComponent {
     let tmpCookie:any = localStorage.getItem('secureCookie');
     let userCookie = JSON.parse(tmpCookie);
     this.userName = userCookie.username;
+    this.userId = userCookie.userId;
     
     if(userCookie=== null || typeof userCookie === 'undefined' || userCookie?.length === 0){
       this.router.navigate(['/']);
     } else {
       this.getUsersTodos(userCookie.id);
-
-      // Ето надо
-      // if(tmptodos === null || typeof tmptodos === 'undefined' || tmptodos?.length === 0 ){
-      //   this.getUsersTodos(userCookie.id);
-      // } else {
-      //   if(newtodo !== null || typeof newtodo !== 'undefined' && newtodo?.length !== 0 ){
-      //     this.todos = JSON.parse(tmptodos);
-      //     this.todos?.unshift(tmpnewtodo);
-      //     localStorage.setItem('todos',JSON.stringify(this.todos));
-      //   }
-      // }
-    }
-    
-
-    
-
-    
+    }  
   }
 
 
@@ -168,10 +154,6 @@ export class TodosComponent {
     localStorage.removeItem('newtodo');
     this.router.navigate(['/']);
   }
-
-  // addNew(event:any){
-  //   this.router.navigate(['/add-todo']);
-  // }
 
 }
 
