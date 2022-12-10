@@ -39,3 +39,7 @@ button {
     margin-left: 1rem;
     margin-right: 1rem;
 }
+
+.mat-mdc-raised-button:not(:disabled){
+    background-color: #53CDEF!important;
+}

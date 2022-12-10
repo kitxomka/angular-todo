@@ -40,6 +40,7 @@
     width: 92%;
     margin: auto;
     overflow-y: auto !important;
+    margin-bottom: 2rem;
 }
 
 .modal {
@@ -120,4 +121,8 @@ button {
 
 .mat-mdc-raised-button:not(:disabled) {
     background-color: #53CDEF!important;
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base{
+    color: #53CDEF;
 }

@@ -25,18 +25,19 @@ interface SelectOptions {
 export class TodosComponent {
   isAddModalVisible:any;
   todos:any;
+  filteredTodos: any;
   userName:any;
   userId: any;
-  selectedOption:string = 'all';
+  selectedOption:string = 'select-all';
   selectOptions: SelectOptions[] = [
-    {value: 'all', viewValue: 'All'},
+    {value: 'select-all', viewValue: 'All'},
     {value: 'done', viewValue: 'Done'},
     {value: 'undone', viewValue: 'UnDone'},
     {value: 'new', viewValue: 'New'}
   ]
-  selectedRadio:string = 'all';
+  selectedRadio:string = 'radio-all';
   radioOptions: RadioOptions[] = [
-    {value: 'all', viewValue: 'All', "checked": true},
+    {value: 'radio-all', viewValue: 'All', "checked": true},
     {value: '5', viewValue: '5', "checked": false},
     {value: '10', viewValue: '10', "checked": false},
     {value: '20', viewValue: '20', "checked": false}
@@ -63,6 +64,9 @@ export class TodosComponent {
       let tmptodos:any = localStorage.getItem('todos');
       // console.log('tmptodos>>>', tmptodos);
       this.todos = JSON.parse(tmptodos);
+      this.filteredTodos = JSON.parse(tmptodos);
+          // this.todos.changeVar.subscribe(message => {
+    
     })
   }
 
@@ -79,50 +83,50 @@ export class TodosComponent {
       this.router.navigate(['/']);
     } else {
       this.getUsersTodos(userCookie.id);
-    }  
+    }
+    
   }
 
+  ngAfterViewInit() {
+    console.log('>>> ngAfterViewInit');
+    this.runFilters();
+  }
 
-  radioChange(event:any){
-    this.selectedRadio = event.value;
-    // console.log(this.selectedRadio);
-    let tmptodos:any = localStorage.getItem('todos');
-    let tmpparsedtodos:any = JSON.parse(tmptodos);
-    if(this.selectedRadio !== 'all'){
-      // console.log('1', this.selectedRadio);
-      this.todos = tmpparsedtodos.splice(0, this.selectedRadio);
-      console.log('1>', this.todos);
+  ngOnChanges(isAddModalVisible: any) {
+    console.log('>>>>', isAddModalVisible);
+  }
+
+  runFilters(formName?: any, value?: any) {
+    if(formName === 'radio') {
+      this.selectedRadio = value;
+    }
+
+    if(formName === 'dropdown') {
+      this.selectedOption = value;
+    }
+
+    this.filteredTodos = this.getFilteredByRadio(this.getFilteredByDropdown(this.todos));
+  }
+
+  getFilteredByRadio(todosList: any) {
+    if(this.selectedRadio === 'radio-all') {
+      return todosList;
     } else {
-      // console.log('2', this.selectedRadio);
-      this.todos = tmpparsedtodos;
-      console.log('2>', this.todos);
-
+      return todosList.slice(0, this.selectedRadio);
     }
   }
 
-  selectChange(event:any){
-    this.selectedOption = event.value;
-    console.log(this.selectedOption);
-    let tmptodos:any = localStorage.getItem('todos');
-    let tmpparsedtodos:any = JSON.parse(tmptodos);
-    if(this.selectedOption === 'done'){
-      console.log('1');
-      let newtmpparsedtodos = this.todos.filter((todo:any) => todo.completed === true)
-      console.log(newtmpparsedtodos);
-      // this.todos = newtmpparsedtodos;
-    } else if (this.selectedOption === 'undone') {
-      console.log('1');
-      let newtmpparsedtodos = this.todos.filter((todo:any) => todo.completed === false)
-      console.log(newtmpparsedtodos);
-      // this.todos = newtmpparsedtodos;
-    } else {
-      console.log('3');
-      console.log(tmpparsedtodos);
-      // this.todos = tmpparsedtodos;
+  getFilteredByDropdown(todosList: any) {
+    console.log('>>> todosList: ', todosList);
+    switch(this.selectedOption){
+      case 'selected-all': return todosList;
+      case 'done': return todosList.filter((todoItem:any) => todoItem.completed);
+      case 'undone': return todosList.filter((todoItem:any) => !todoItem.completed);
+      case 'new': return todosList.filter((todoItem:any) => todoItem.new);
+      default:
+        return todosList;
     }
-
   }
-
 
   handleDelete(event:any, id:any) {
     const index = this.todos.findIndex((todo:any) => todo.id === id);
@@ -130,6 +134,7 @@ export class TodosComponent {
       this.todos.splice(index,1);
     }
     localStorage.setItem('todos',JSON.stringify(this.todos));
+    this.runFilters();
   }
 
   handleDone(event:any, id:any){
@@ -138,6 +143,7 @@ export class TodosComponent {
       this.todos[index].completed = true;
     }
     localStorage.setItem('todos',JSON.stringify(this.todos));
+    this.runFilters();
   }
 
   handleUnDone(event:any, id:any){
@@ -146,6 +152,7 @@ export class TodosComponent {
       this.todos[index].completed = false;
     }
     localStorage.setItem('todos',JSON.stringify(this.todos));
+    this.runFilters();
   }
 
   logOut(event:any){

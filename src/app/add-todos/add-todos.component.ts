@@ -55,6 +55,7 @@ cancel(){
 
 @Input() todos:any;
 @Input() userId:any;
+@Output() runFilters = new EventEmitter();
 addNew(data:any, event:any){
   console.log('in add new todos', this.todos);
 
@@ -72,6 +73,7 @@ addNew(data:any, event:any){
   this.todos.unshift(newToDo);
   console.log('newUserTodos', this.todos)
   localStorage.setItem('todos',JSON.stringify(this.todos));
+  this.runFilters.emit();
   this.onCloseClick.emit();
   }
 
