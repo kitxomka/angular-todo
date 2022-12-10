@@ -1,0 +1,41 @@
+.title-wrap {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+.title {
+    text-align: left;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.167;
+    letter-spacing: 0em;
+    /* margin-top: 2rem; */
+    /* margin-bottom: 1.5rem; */
+    text-transform: uppercase;
+}
+
+.card {
+    /* width: 100%; */
+    /* margin: 1.5rem auto; */
+}
+
+.form-container {
+    /* width: 40%;
+    margin: auto; */
+    text-align: center;
+    /* margin-bottom: 4rem; */
+    margin-top: 2rem;
+} 
+
+
+.mat-mdc-form-field {
+    width: 85%;
+    /* display: block; */
+    /* margin-bottom: 1rem; */
+}
+
+button {
+    width: 5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

@@ -1,0 +1,90 @@
+<div class="todos-wraper">
+    <div class="header">
+        <div class="top-header">
+            <div class="left">
+                <h2 class="title">Todo - List</h2>
+            </div>
+            <div class="right">
+                <div>Hello {{userName}},</div>
+                <button mat-raised-button color="primary" mat-button (click)="logOut($event)">
+                    Log Out
+                </button>
+            </div>
+        </div>
+        <div class="filters">
+            <mat-radio-group class="radio-wrap">
+                <mat-radio-button *ngFor="let option of radioOptions" [value]="option.value" [checked]="option.checked" (change)="radioChange($event)">
+                    {{option.viewValue}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <mat-form-field appearance="outline" class="select-wrap">
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]="selectedOption" (selectionChange)="selectChange($event)">
+                    <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+                        {{option.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="add-new">
+            <button mat-raised-button color="primary" mat-button (click)="openDialog($event)">
+                Add New
+            </button>
+            <!-- <div class="modal" [ngClass]="{'open' : isAddModalVisible}"> -->
+                <!-- <div class="modal-content"> -->
+                    <!-- <app-add-todos (onCloseClick)="isAddModalVisible = false" [todos]="todos"></app-add-todos>      -->
+                <!-- </div> -->
+            <!-- </div> -->
+            <app-add-todos (onCloseClick)="handleAddCancel()" [todos]="todos"></app-add-todos>
+        </div>
+    </div>
+    <div class="content">
+        <div *ngFor="let todo of todos">
+            <div class="text" [ngClass]="{'done': todo?.completed}" [ngClass]="{'new': todo?.new}">{{todo?.title}}</div>
+            <div *ngIf="todo?.priority" class="priority">{{todo?.priority}}</div>
+            <div class="btns">
+                <button mat-icon-button color="primary" class="delete" (click)="handleDelete($event, todo?.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button *ngIf="!todo?.completed" mat-icon-button color="primary" class="done" (click)="handleDone($event, todo?.id)">
+                    <mat-icon>done</mat-icon>
+                </button> 
+                <button *ngIf="todo?.completed" mat-icon-button color="primary" class="undo" (click)="handleUnDone($event, todo?.id)">
+                    <mat-icon>undone</mat-icon>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- <div class="todos-wraper">
+    <mat-card *ngFor="let todo of todos" class="card">
+        <mat-card-content class="todo">
+            <div class="top-row-wrap">
+                <div *ngIf="todo.new" class="new">NEW</div>
+                <div *ngIf="todo.priority" class="priority">
+                    <mat-chip-listbox>
+                        <mat-chip color="primary" style="background-color: #3F51B5">
+                            {{todo.priority}}
+                        </mat-chip>
+                    </mat-chip-listbox>
+                </div>
+            </div>
+            <div class="text" [ngClass]="{'done': todo.completed}">
+               {{todo?.title}} 
+            </div>
+            <div class="btns">
+               <button mat-icon-button color="primary" class="delete" (click)="handleDelete($event, todo?.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button *ngIf="!todo.completed" mat-icon-button color="primary" class="done" (click)="handleDone($event, todo?.id)">
+                    <mat-icon>done</mat-icon>
+                </button> 
+                <button *ngIf="todo.completed" mat-icon-button color="primary" class="undo" (click)="handleUnDone($event, todo?.id)">
+                    <mat-icon>undone</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div> -->
+

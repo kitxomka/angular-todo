@@ -1,0 +1,127 @@
+.todos-wraper {
+    width: 70%;
+    margin: 5rem auto;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.title {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.167;
+    letter-spacing: 0em;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right {
+    margin-right: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.add-new {
+    /* margin-left: 1.5rem; */
+    width: 96%;
+    margin: auto;
+    margin-bottom: 3rem;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #53CDEF;
+}
+
+.content {
+    width: 92%;
+    /* height: auto; */
+    margin: auto;
+    overflow-y: auto !important;
+}
+
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    width: 30%; 
+    height: 60%; 
+    top: 30%;
+    left: calc(50vw - 15%);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.open{
+    display: block;
+}
+
+
+.card {
+    width: 65%;
+    margin: 1.5rem auto;
+}
+
+.text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+    display: inline-block;
+    width: 45%;
+}
+
+.new {
+    font-weight: 500;
+}
+
+.priority {
+    display: inline-block;
+    width: 15%;
+    text-transform: uppercase;
+}
+
+.btns{
+    text-align: center;
+    margin-top: 1rem;
+    display: inline-block;
+    width: 15%;
+}
+
+.filters {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    margin-left: 3rem;
+}
+
+.radio-wrap {
+    margin-left: 3rem;
+}
+
+.select-wrap {
+    width: 20%;
+    margin-left: 3rem;
+}
+
+.done {
+    text-decoration-line: line-through;
+}
+
+button {
+    text-transform: uppercase;
+}
+
+.top-row-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    background-color: #53CDEF!important;
+}

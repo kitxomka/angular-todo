@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FetchDataService } from './fetch-data.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-todo-app';
+  todos:any;
+  users:any;
+  userLogedIn:any;
+  constructor(private _userservie:FetchDataService){}
+
+  ngOnInit(){
+    this._userservie.fetchusers().subscribe(res => {
+      localStorage.setItem('users',JSON.stringify(res));
+      let tmpusers:any = localStorage.getItem('users');
+      this.users = JSON.parse(tmpusers);
+    })
+  }
+
 }

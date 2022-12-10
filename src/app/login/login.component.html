@@ -1,0 +1,21 @@
+<div class="login-wraper">
+    <!-- userName and email -->
+    <mat-card class="card">
+        <div class="title-wrap">
+            <h2 class="title">Log In</h2>
+        </div>
+                <form [formGroup]="loginForm" (ngSubmit) = "onSubmit(loginForm.value)" >
+                <div class="form-container">
+                    <mat-form-field appearance="outline">
+                        <input matInput type="user-name" placeholder="User Name*" formControlName="username">    
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Email*" formControlName="email">
+                    </mat-form-field>
+                    <p *ngIf="showError" class="error">User has been not found</p>
+                    <button [disabled]="!loginForm.valid" mat-raised-button  mat-button>Log In</button>
+                </div>
+            </form>
+    </mat-card>
+ 
+</div>

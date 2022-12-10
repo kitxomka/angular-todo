@@ -1,0 +1,26 @@
+
+    <!-- userName and email -->
+    <div class="card">
+        <div class="title-wrap">
+            <h2 class="title">Add New</h2>
+        </div>
+
+                <form [formGroup]="newToDoForm" (ngSubmit) = "addNew(newToDoForm.value, $event)">
+                <div class="form-container">
+                    <mat-form-field appearance="outline">
+                        <input matInput type="todo" placeholder="To Do*" formControlName="todo">    
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="priority-wrap">
+                        <mat-label>Priority</mat-label>
+                        <mat-select [(value)]="selectedOption" (selectionChange)="priorityChange($event)">
+                            <mat-option *ngFor="let option of priorityOptions" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" mat-button (click)="cancel()">Cancel</button>
+                    <button [disabled]="!newToDoForm.valid" mat-raised-button color="primary" mat-button>Add</button>
+                </div>
+            </form>
+        </div>
+
