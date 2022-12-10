@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="content">
-        <div *ngFor="let todo of todos">
+        <div *ngFor="let todo of filteredTodos">
             <div class="text" [ngClass]="[ todo?.completed ? 'done' : '', todo?.new ? 'new': '' ]">{{todo?.title}}</div>
             <div *ngIf="todo?.priority" class="priority">{{todo?.priority}}</div>
             <div class="btns">
