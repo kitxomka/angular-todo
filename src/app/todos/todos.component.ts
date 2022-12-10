@@ -71,20 +71,17 @@ export class TodosComponent {
   }
 
   ngOnInit(){
-    // debugger;
     this.isAddModalVisible = false;
     let tmptodos:any = localStorage.getItem('todos');
     let tmpCookie:any = localStorage.getItem('secureCookie');
     let userCookie = JSON.parse(tmpCookie);
-    this.userName = userCookie.username;
-    this.userId = userCookie.userId;
-    
+    this.userName = userCookie?.username;
+    this.userId = userCookie?.userId;
     if(userCookie=== null || typeof userCookie === 'undefined' || userCookie?.length === 0){
       this.router.navigate(['/']);
     } else {
       this.getUsersTodos(userCookie.id);
     }
-    
   }
 
   ngAfterViewInit() {
