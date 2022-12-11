@@ -17,9 +17,9 @@
                 </mat-radio-button>
             </mat-radio-group>
             <mat-form-field appearance="outline" class="select-wrap">
-                <mat-label>Select an option</mat-label>
-                <mat-select [(value)]="selectedOption" (selectionChange)="runFilters('dropdown', $event.value)">
-                    <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+                <mat-label>Filter by</mat-label>
+                <mat-select [(value)]="filterBy" (selectionChange)="runFilters('dropdown', $event.value)">
+                    <mat-option *ngFor="let option of filterOptions" [value]="option.value">
                         {{option.viewValue}}
                     </mat-option>
                 </mat-select>

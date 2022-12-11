@@ -29,20 +29,20 @@ interface ITodosList {
   styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent {
-  isAddModalVisible: boolean = false;
-  todosList: ITodosList[] = [];
-  filteredTodosList: any;
-  userName: any;
-  userId: any;
-  selectedOption: string = 'select-all'; // selectedCategoryOption, todo rename on ui too
-  selectOptions: ISelectOptions[] = [
+  isAddModalVisible:boolean = false;
+  todosList:ITodosList[] = [];
+  filteredTodosList:ITodosList[] = [];
+  userName:string = '';
+  userId:number | undefined;
+  filterBy:string | undefined = 'select-all';
+  filterOptions:ISelectOptions[] = [
     { value: 'select-all', viewValue: 'All' },
     { value: 'done', viewValue: 'Done' },
     { value: 'undone', viewValue: 'Not done' },
     { value: 'new', viewValue: 'New' },
-  ]; // categoryOptionList
-  selectedRadio: string = 'radio-all'; // selectedCategoryOption,
-  radioOptions: IRadioOptions[] = [
+  ]; 
+  selectedRadio:string | undefined = 'radio-all' ; 
+  radioOptions:IRadioOptions[] = [
     { value: 'radio-all', viewValue: 'All', checked: true },
     { value: '5', viewValue: '5', checked: false },
     { value: '10', viewValue: '10', checked: false },
@@ -55,33 +55,27 @@ export class TodosComponent {
     private dialog: MatDialog
   ) {}
 
-  openDialog(event: any) {
+  openDialog(event:any) {
     this.isAddModalVisible = true;
-  }
-
-  closeDialog() {
-    this.isAddModalVisible = false;
   }
 
   handleAddModalCancel() {
     this.isAddModalVisible = false;
   }
 
-  getUsersTodos(id: any) {
+  getUsersTodos(id:number) {
     this._todoservie.fetchtodos(id).subscribe((res) => {
       localStorage.setItem('todos', JSON.stringify(res));
-      let tmptodos: any = localStorage.getItem('todos');
-      // console.log('tmptodos>>>', tmptodos);
+      let tmptodos:any = localStorage.getItem('todos');
       this.todosList = JSON.parse(tmptodos);
       this.filteredTodosList = JSON.parse(tmptodos);
-      // this.todos.changeVar.subscribe(message => {
     });
   }
 
   ngOnInit() {
     this.isAddModalVisible = false;
-    let tmptodos: any = localStorage.getItem('todos');
-    let tmpCookie: any = localStorage.getItem('secureCookie');
+    let tmptodos:any = localStorage.getItem('todos');
+    let tmpCookie:any = localStorage.getItem('secureCookie');
     let userCookie = JSON.parse(tmpCookie);
     this.userName = userCookie?.username;
     this.userId = userCookie?.userId;
@@ -97,21 +91,17 @@ export class TodosComponent {
   }
 
   ngAfterViewInit() {
-    console.log('>>> ngAfterViewInit');
     this.runFilters();
   }
 
-  ngOnChanges(isAddModalVisible: any) {
-    console.log('>>>>', isAddModalVisible);
-  }
 
-  runFilters(formName?: any, value?: any) {
+  runFilters(formName?:string | undefined, value?:string | undefined) {
     if (formName === 'radio') {
       this.selectedRadio = value;
     }
 
     if (formName === 'dropdown') {
-      this.selectedOption = value;
+      this.filterBy = value;
     }
 
     this.filteredTodosList = this.getFilteredByRadio(
@@ -119,7 +109,7 @@ export class TodosComponent {
     );
   }
 
-  getFilteredByRadio(todosList: any) {
+  getFilteredByRadio(todosList:any) {
     if (this.selectedRadio === 'radio-all') {
       return todosList;
     } else {
@@ -127,23 +117,22 @@ export class TodosComponent {
     }
   }
 
-  getFilteredByDropdown(todosList: any) {
-    console.log('>>> todosList: ', todosList);
-    switch (this.selectedOption) {
+  getFilteredByDropdown(todosList:any) {
+    switch (this.filterBy) {
       case 'selected-all':
         return todosList;
       case 'done':
-        return todosList.filter((todoItem: any) => todoItem.completed);
+        return todosList.filter((todoItem:any) => todoItem.completed);
       case 'undone':
-        return todosList.filter((todoItem: any) => !todoItem.completed);
+        return todosList.filter((todoItem:any) => !todoItem.completed);
       case 'new':
-        return todosList.filter((todoItem: any) => todoItem.new);
+        return todosList.filter((todoItem:any) => todoItem.new);
       default:
         return todosList;
     }
   }
 
-  handleDelete(event: any, id: number) {
+  handleDelete(event:any, id:number | undefined) {
     const index = this.todosList?.findIndex((todo: any) => todo.id === id);
     if (index > -1) {
       this.todosList?.splice(index, 1);
@@ -152,7 +141,7 @@ export class TodosComponent {
     this.runFilters();
   }
 
-  handleDoneStatus(event: any, id: number) {
+  handleDoneStatus(event:any, id:number | undefined) {
     const index = this.todosList?.findIndex((todo: any) => todo.id === id);
     if (index > -1) {
       this.todosList[index].completed = !this.todosList[index].completed;
@@ -161,7 +150,7 @@ export class TodosComponent {
     this.runFilters();
   }
 
-  logOut(event: any) {
+  logOut(event:any) {
     localStorage.removeItem('todos');
     localStorage.removeItem('secureCookie');
     localStorage.removeItem('newtodo');
