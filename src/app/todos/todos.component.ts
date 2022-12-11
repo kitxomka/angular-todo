@@ -55,7 +55,7 @@ export class TodosComponent {
     private dialog: MatDialog
   ) {}
 
-  openDialog(event:any) {
+  openAddDialog(event?:any) {
     this.isAddModalVisible = true;
   }
 
@@ -139,6 +139,17 @@ export class TodosComponent {
     }
     localStorage.setItem('todos', JSON.stringify(this.todosList));
     this.runFilters();
+  }
+
+  handleEdite(event:any, id:number | undefined) {
+    console.log(id);
+    const index = this.todosList?.findIndex((todo: any) => todo.id === id);
+    if (index > -1) {
+
+    }
+    localStorage.setItem('todos', JSON.stringify(this.todosList));
+    this.runFilters();
+
   }
 
   handleDoneStatus(event:any, id:number | undefined) {
