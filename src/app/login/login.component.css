@@ -2,12 +2,10 @@
     width: 50%;
     margin: auto;
     margin-top: 15rem;
-    /* border: 1px solid #ccc; */
 }
 
 .title {
     text-align: left;
-    /* text-transform: capitalize; */
     width: 90%;
     font-size: 2rem;
     font-weight: 400;
@@ -46,8 +44,6 @@
 
 button {
     text-transform: capitalize;
-    
-    /* background-color: #53CDEF!important; */
 }
 
 .mat-mdc-raised-button:not(:disabled) {

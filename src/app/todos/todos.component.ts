@@ -5,13 +5,13 @@ import {MatDialog} from "@angular/material/dialog";
 
 
 
-interface RadioOptions {
+interface IRadioOptions {
   value: string;
   viewValue: string;
   checked: boolean;
 }
 
-interface SelectOptions {
+interface ISelectOptions {
   value: string;
   viewValue: string;
 }
@@ -24,19 +24,19 @@ interface SelectOptions {
 
 export class TodosComponent {
   isAddModalVisible:boolean = false;
-  todos:any; // todosList
+  todosList:any; // todosList
   filteredTodos: any; // filteredTodosList
   userName:any;
   userId: any;
   selectedOption:string = 'select-all';  // selectedCategoryOption, todo rename on ui too
-  selectOptions: SelectOptions[] = [
+  selectOptions: ISelectOptions[] = [
     {value: 'select-all', viewValue: 'All'},
     {value: 'done', viewValue: 'Done'},
     {value: 'undone', viewValue: 'Not done'},
     {value: 'new', viewValue: 'New'}
   ]; // categoryOptionList
   selectedRadio:string = 'radio-all';  // selectedCategoryOption,
-  radioOptions: RadioOptions[] = [
+  radioOptions: IRadioOptions[] = [
     {value: 'radio-all', viewValue: 'All', "checked": true},
     {value: '5', viewValue: '5', "checked": false},
     {value: '10', viewValue: '10', "checked": false},
@@ -63,7 +63,7 @@ export class TodosComponent {
       localStorage.setItem('todos',JSON.stringify(res));
       let tmptodos:any = localStorage.getItem('todos');
       // console.log('tmptodos>>>', tmptodos);
-      this.todos = JSON.parse(tmptodos);
+      this.todosList = JSON.parse(tmptodos);
       this.filteredTodos = JSON.parse(tmptodos);
           // this.todos.changeVar.subscribe(message => {
     
@@ -102,7 +102,7 @@ export class TodosComponent {
       this.selectedOption = value;
     }
 
-    this.filteredTodos = this.getFilteredByRadio(this.getFilteredByDropdown(this.todos));
+    this.filteredTodos = this.getFilteredByRadio(this.getFilteredByDropdown(this.todosList));
   }
 
   getFilteredByRadio(todosList: any) {
@@ -126,20 +126,20 @@ export class TodosComponent {
   }
 
   handleDelete(event:any, id:any) {
-    const index = this.todos.findIndex((todo:any) => todo.id === id);
+    const index = this.todosList.findIndex((todo:any) => todo.id === id);
     if(index > -1) {
-      this.todos.splice(index,1);
+      this.todosList.splice(index,1);
     }
-    localStorage.setItem('todos',JSON.stringify(this.todos));
+    localStorage.setItem('todos',JSON.stringify(this.todosList));
     this.runFilters();
   }
 
-  handleDone(event:any, id:any){
-    const index = this.todos.findIndex((todo:any) => todo.id === id);
+  handleDoneStatus(event:any, id:any){
+    const index = this.todosList.findIndex((todo:any) => todo.id === id);
     if(index > -1) {
-      this.todos[index].completed = !this.todos[index].completed;
+      this.todosList[index].completed = !this.todosList[index].completed;
     }
-    localStorage.setItem('todos',JSON.stringify(this.todos));
+    localStorage.setItem('todos',JSON.stringify(this.todosList));
     this.runFilters();
   }
 

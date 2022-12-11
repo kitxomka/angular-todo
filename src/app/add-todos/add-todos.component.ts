@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-
-
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
-interface Priority {
+
+interface IPriority {
   value: string;
   viewValue: string;
 }
@@ -20,9 +19,9 @@ export class AddTodosComponent {
 
   newToDoForm:any = FormGroup;
   selectedOption:string = 'Hight';
-  priorityOptions: Priority[] = [
+  priorityOptions: IPriority[] = [
     {value: 'high', viewValue: 'High'},
-    {value: 'med', viewValue: 'Medium'},
+    {value: 'medium', viewValue: 'Medium'},
     {value: 'low', viewValue: 'Low'},
   ]
 
@@ -43,9 +42,8 @@ export class AddTodosComponent {
     }
   }
   
-  priorityChange(event:any){
-    console.log('priorityChange',event.value);
-    this.selectedOption = event.value;
+  priorityChange(value:string){
+    this.selectedOption = value;
   }
 
 @Output() onCloseClick = new EventEmitter();
@@ -53,26 +51,17 @@ cancel(){
   this.onCloseClick.emit();
 }
 
-@Input() todos:any;
+@Input() todosList:any;
 @Input() userId:any;
 @Output() runFilters = new EventEmitter();
 addNew(data:any, event:any){
-  console.log('in add new todos', this.todos);
-
-  console.log('addNew-data',data);
-  console.log('addNew-prior',this.selectedOption);
-    
   let tmpId = 0;
-  for(let i = 0; i < this.todos.length; i++) {
-    tmpId = this.todos[i].id > tmpId ? this.todos[i].id : tmpId;
+  for(let i = 0; i < this.todosList.length; i++) {
+    tmpId = this.todosList[i].id > tmpId ? this.todosList[i].id : tmpId;
   }
-  
   let newToDo = {userId: this.userId, id: tmpId, title:data.todo, completed: false, new: true, priority: this.selectedOption};
-  console.log('newToDo', newToDo)
-
-  this.todos.unshift(newToDo);
-  console.log('newUserTodos', this.todos)
-  localStorage.setItem('todos',JSON.stringify(this.todos));
+  this.todosList.unshift(newToDo);
+  localStorage.setItem('todos',JSON.stringify(this.todosList));
   this.runFilters.emit();
   this.onCloseClick.emit();
   }

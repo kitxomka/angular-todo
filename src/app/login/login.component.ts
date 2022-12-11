@@ -2,6 +2,23 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
+interface IUser {
+  username: string;
+  email: string;
+}
+
+interface IUsers {
+  id: number;
+  username: string;
+  email: string;
+}
+
+interface IUserLogedIn {
+  id: number;
+  username: string;
+  email: string;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,10 +27,10 @@ import {Router} from '@angular/router';
 
 export class LoginComponent {
   loginForm:any = FormGroup;
-  loginData: any;
-  users:any;
-  userLogedIn:any;
-  showError:any;
+  loginData:IUser | undefined;
+  users:IUsers[] | undefined;
+  userLogedIn:IUserLogedIn | undefined;
+  showError:boolean = false;
 
   constructor(private router: Router) { 
     this.loginForm = new FormGroup({
@@ -24,20 +41,18 @@ export class LoginComponent {
 
 
   getUserByEmailAndUserName(){
-    // this.isLoggedIn = false;
     let tmpusers:any = localStorage.getItem('users');
     this.users = JSON.parse(tmpusers);
-    let tmpUserLogedIn =  this.users.find((user:any) => user.email === this.loginData.email && user.username === this.loginData.username);
+    let tmpUserLogedIn =  this.users?.find((user:IUserLogedIn) => user.email === this.loginData?.email && user.username === this.loginData?.username);
     if(tmpUserLogedIn){
       this.userLogedIn = tmpUserLogedIn;
-      this.showError = false;
+      this.showError = this.showError;
     } else {
-      console.log('not found');
-      this.showError = true;
+      this.showError = !this.showError;
     }
   }
 
-  onSubmit(data:any){
+  onSubmit(data:IUser){
     this.loginData = data;
     this.getUserByEmailAndUserName();
     if(this.userLogedIn) {

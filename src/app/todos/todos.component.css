@@ -16,8 +16,8 @@
     margin-bottom: 1.5rem;
     margin-left: 1.5rem;
 }
-.log-out {
-    cursor: pointer;
+.log-out a {
+    color:black;
 }
 
 .top-header {
@@ -42,7 +42,6 @@
 .content {
     width: 92%;
     margin: auto;
-    overflow-y: auto !important;
     margin-bottom: 2rem;
 }
 
@@ -85,9 +84,9 @@
 
 .priority {
     display: inline-block;
-    width: 5%;
+    width: 10%;
     text-transform: capitalize;
-    text-align: center;
+    text-align: left;
     height: 38px;
     line-height: 2.9;
 }
@@ -133,4 +132,16 @@ button {
 
 .mat-mdc-icon-button.mat-mdc-button-base{
     color: #53CDEF;
+}
+
+.low {
+    color: #5E72E3;
+}
+
+.med {
+    color: #F7BB33;
+}
+
+.high {
+    color: #EE365D
 }
