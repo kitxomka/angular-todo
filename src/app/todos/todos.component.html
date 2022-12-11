@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="content">
-        <div *ngFor="let todo of filteredTodos">
+        <div *ngFor="let todo of filteredTodosList">
             <div class="text" [ngClass]="[ todo?.completed ? 'done' : '', todo?.new ? 'new': '' ]">{{todo?.title}}</div>
             <div *ngIf="todo?.priority" [ngClass]="[ todo?.priority === 'low' ? 'low' : '', todo?.priority === 'medium' ? 'med': '', todo?.priority === 'high' ? 'high': '' ]"  class="priority">{{todo?.priority}} Priority</div>
             <div *ngIf="!todo?.priority" class="priority low">Low Priority</div>

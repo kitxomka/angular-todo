@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { FetchDataService } from '../fetch-data.service';
-import {Router} from '@angular/router';
-import {MatDialog} from "@angular/material/dialog";
-
-
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 interface IRadioOptions {
   value: string;
@@ -16,41 +14,52 @@ interface ISelectOptions {
   viewValue: string;
 }
 
+interface ITodosList {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+  new?: boolean;
+  priority?: string;
+}
+
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
-  styleUrls: ['./todos.component.css']
+  styleUrls: ['./todos.component.css'],
 })
-
 export class TodosComponent {
-  isAddModalVisible:boolean = false;
-  todosList:any; // todosList
-  filteredTodos: any; // filteredTodosList
-  userName:any;
+  isAddModalVisible: boolean = false;
+  todosList: ITodosList[] = [];
+  filteredTodosList: any;
+  userName: any;
   userId: any;
-  selectedOption:string = 'select-all';  // selectedCategoryOption, todo rename on ui too
+  selectedOption: string = 'select-all'; // selectedCategoryOption, todo rename on ui too
   selectOptions: ISelectOptions[] = [
-    {value: 'select-all', viewValue: 'All'},
-    {value: 'done', viewValue: 'Done'},
-    {value: 'undone', viewValue: 'Not done'},
-    {value: 'new', viewValue: 'New'}
+    { value: 'select-all', viewValue: 'All' },
+    { value: 'done', viewValue: 'Done' },
+    { value: 'undone', viewValue: 'Not done' },
+    { value: 'new', viewValue: 'New' },
   ]; // categoryOptionList
-  selectedRadio:string = 'radio-all';  // selectedCategoryOption,
+  selectedRadio: string = 'radio-all'; // selectedCategoryOption,
   radioOptions: IRadioOptions[] = [
-    {value: 'radio-all', viewValue: 'All', "checked": true},
-    {value: '5', viewValue: '5', "checked": false},
-    {value: '10', viewValue: '10', "checked": false},
-    {value: '20', viewValue: '20', "checked": false}
+    { value: 'radio-all', viewValue: 'All', checked: true },
+    { value: '5', viewValue: '5', checked: false },
+    { value: '10', viewValue: '10', checked: false },
+    { value: '20', viewValue: '20', checked: false },
   ];
 
+  constructor(
+    private _todoservie: FetchDataService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
-  constructor(private _todoservie:FetchDataService, private router: Router, private dialog: MatDialog){}
-
-  openDialog(event:any) {
+  openDialog(event: any) {
     this.isAddModalVisible = true;
   }
 
-  closeDialog(){
+  closeDialog() {
     this.isAddModalVisible = false;
   }
 
@@ -58,26 +67,29 @@ export class TodosComponent {
     this.isAddModalVisible = false;
   }
 
-  getUsersTodos(id:any){
-    this._todoservie.fetchtodos(id).subscribe(res => {
-      localStorage.setItem('todos',JSON.stringify(res));
-      let tmptodos:any = localStorage.getItem('todos');
+  getUsersTodos(id: any) {
+    this._todoservie.fetchtodos(id).subscribe((res) => {
+      localStorage.setItem('todos', JSON.stringify(res));
+      let tmptodos: any = localStorage.getItem('todos');
       // console.log('tmptodos>>>', tmptodos);
       this.todosList = JSON.parse(tmptodos);
-      this.filteredTodos = JSON.parse(tmptodos);
-          // this.todos.changeVar.subscribe(message => {
-    
-    })
+      this.filteredTodosList = JSON.parse(tmptodos);
+      // this.todos.changeVar.subscribe(message => {
+    });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.isAddModalVisible = false;
-    let tmptodos:any = localStorage.getItem('todos');
-    let tmpCookie:any = localStorage.getItem('secureCookie');
+    let tmptodos: any = localStorage.getItem('todos');
+    let tmpCookie: any = localStorage.getItem('secureCookie');
     let userCookie = JSON.parse(tmpCookie);
     this.userName = userCookie?.username;
     this.userId = userCookie?.userId;
-    if(userCookie=== null || typeof userCookie === 'undefined' || userCookie?.length === 0){
+    if (
+      userCookie === null ||
+      typeof userCookie === 'undefined' ||
+      userCookie?.length === 0
+    ) {
       this.router.navigate(['/']);
     } else {
       this.getUsersTodos(userCookie.id);
@@ -94,19 +106,21 @@ export class TodosComponent {
   }
 
   runFilters(formName?: any, value?: any) {
-    if(formName === 'radio') {
+    if (formName === 'radio') {
       this.selectedRadio = value;
     }
 
-    if(formName === 'dropdown') {
+    if (formName === 'dropdown') {
       this.selectedOption = value;
     }
 
-    this.filteredTodos = this.getFilteredByRadio(this.getFilteredByDropdown(this.todosList));
+    this.filteredTodosList = this.getFilteredByRadio(
+      this.getFilteredByDropdown(this.todosList)
+    );
   }
 
   getFilteredByRadio(todosList: any) {
-    if(this.selectedRadio === 'radio-all') {
+    if (this.selectedRadio === 'radio-all') {
       return todosList;
     } else {
       return todosList.slice(0, this.selectedRadio);
@@ -115,40 +129,42 @@ export class TodosComponent {
 
   getFilteredByDropdown(todosList: any) {
     console.log('>>> todosList: ', todosList);
-    switch(this.selectedOption){
-      case 'selected-all': return todosList;
-      case 'done': return todosList.filter((todoItem:any) => todoItem.completed);
-      case 'undone': return todosList.filter((todoItem:any) => !todoItem.completed);
-      case 'new': return todosList.filter((todoItem:any) => todoItem.new);
+    switch (this.selectedOption) {
+      case 'selected-all':
+        return todosList;
+      case 'done':
+        return todosList.filter((todoItem: any) => todoItem.completed);
+      case 'undone':
+        return todosList.filter((todoItem: any) => !todoItem.completed);
+      case 'new':
+        return todosList.filter((todoItem: any) => todoItem.new);
       default:
         return todosList;
     }
   }
 
-  handleDelete(event:any, id:any) {
-    const index = this.todosList.findIndex((todo:any) => todo.id === id);
-    if(index > -1) {
-      this.todosList.splice(index,1);
+  handleDelete(event: any, id: number) {
+    const index = this.todosList?.findIndex((todo: any) => todo.id === id);
+    if (index > -1) {
+      this.todosList?.splice(index, 1);
     }
-    localStorage.setItem('todos',JSON.stringify(this.todosList));
+    localStorage.setItem('todos', JSON.stringify(this.todosList));
     this.runFilters();
   }
 
-  handleDoneStatus(event:any, id:any){
-    const index = this.todosList.findIndex((todo:any) => todo.id === id);
-    if(index > -1) {
+  handleDoneStatus(event: any, id: number) {
+    const index = this.todosList?.findIndex((todo: any) => todo.id === id);
+    if (index > -1) {
       this.todosList[index].completed = !this.todosList[index].completed;
     }
-    localStorage.setItem('todos',JSON.stringify(this.todosList));
+    localStorage.setItem('todos', JSON.stringify(this.todosList));
     this.runFilters();
   }
 
-  logOut(event:any){
+  logOut(event: any) {
     localStorage.removeItem('todos');
     localStorage.removeItem('secureCookie');
     localStorage.removeItem('newtodo');
     this.router.navigate(['/']);
   }
-
 }
-
