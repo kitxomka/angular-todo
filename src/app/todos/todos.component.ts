@@ -23,25 +23,25 @@ interface SelectOptions {
 })
 
 export class TodosComponent {
-  isAddModalVisible:any;
-  todos:any;
-  filteredTodos: any;
+  isAddModalVisible:boolean = false;
+  todos:any; // todosList
+  filteredTodos: any; // filteredTodosList
   userName:any;
   userId: any;
-  selectedOption:string = 'select-all';
+  selectedOption:string = 'select-all';  // selectedCategoryOption, todo rename on ui too
   selectOptions: SelectOptions[] = [
     {value: 'select-all', viewValue: 'All'},
     {value: 'done', viewValue: 'Done'},
-    {value: 'undone', viewValue: 'UnDone'},
+    {value: 'undone', viewValue: 'Not done'},
     {value: 'new', viewValue: 'New'}
-  ]
-  selectedRadio:string = 'radio-all';
+  ]; // categoryOptionList
+  selectedRadio:string = 'radio-all';  // selectedCategoryOption,
   radioOptions: RadioOptions[] = [
     {value: 'radio-all', viewValue: 'All', "checked": true},
     {value: '5', viewValue: '5', "checked": false},
     {value: '10', viewValue: '10', "checked": false},
     {value: '20', viewValue: '20', "checked": false}
-  ]
+  ];
 
 
   constructor(private _todoservie:FetchDataService, private router: Router, private dialog: MatDialog){}
@@ -137,16 +137,7 @@ export class TodosComponent {
   handleDone(event:any, id:any){
     const index = this.todos.findIndex((todo:any) => todo.id === id);
     if(index > -1) {
-      this.todos[index].completed = true;
-    }
-    localStorage.setItem('todos',JSON.stringify(this.todos));
-    this.runFilters();
-  }
-
-  handleUnDone(event:any, id:any){
-     const index = this.todos.findIndex((todo:any) => todo.id === id);
-    if(index > -1) {
-      this.todos[index].completed = false;
+      this.todos[index].completed = !this.todos[index].completed;
     }
     localStorage.setItem('todos',JSON.stringify(this.todos));
     this.runFilters();

@@ -2,13 +2,11 @@
     <div class="header">
         <div class="top-header">
             <div class="left">
-                <h2 class="title">Todo - List</h2>
+                <h2 class="title">Todo list</h2>
             </div>
             <div class="right">
                 <div>Hello {{userName}},</div>
-                <button mat-raised-button color="primary" mat-button (click)="logOut($event)">
-                    Log Out
-                </button>
+                <div class="log-out" (click)="logOut($event)">Log Out</div>
             </div>
         </div>
         <div class="filters">
@@ -38,7 +36,8 @@
     <div class="content">
         <div *ngFor="let todo of filteredTodos">
             <div class="text" [ngClass]="[ todo?.completed ? 'done' : '', todo?.new ? 'new': '' ]">{{todo?.title}}</div>
-            <div *ngIf="todo?.priority" class="priority">{{todo?.priority}}</div>
+            <div *ngIf="todo?.priority"  class="priority">{{todo?.priority}}</div>
+            <div *ngIf="!todo?.priority" class="priority">Low</div>
             <div class="btns">
                 <button mat-icon-button color="primary" class="delete" (click)="handleDelete($event, todo?.id)">
                     <mat-icon>delete</mat-icon>
@@ -48,7 +47,7 @@
                     <mat-icon>done</mat-icon>
                 </button>
                 <button *ngIf="todo?.completed" mat-icon-button color="primary" class="undo"
-                    (click)="handleUnDone($event, todo?.id)">
+                    (click)="handleDone($event, todo?.id)">
                     <mat-icon>undone</mat-icon>
                 </button>
             </div>

@@ -7,7 +7,7 @@
 
 .title {
     text-align: left;
-    text-transform: uppercase;
+    /* text-transform: capitalize; */
     width: 90%;
     font-size: 2rem;
     font-weight: 400;
@@ -45,11 +45,12 @@
 }
 
 button {
-    text-transform: uppercase;
+    text-transform: capitalize;
+    
     /* background-color: #53CDEF!important; */
 }
 
 .mat-mdc-raised-button:not(:disabled) {
     background-color: #53CDEF!important;
-
+    color: white;
 }
